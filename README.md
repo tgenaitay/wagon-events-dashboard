@@ -8,7 +8,7 @@ Event managers can use light dashboard to update data fast.
 
 1. Run a local server with port 8000 and open this dashboard on http://localhost:8000/.
 
-If you don't have the `serve` alias, you can make one here:
+If you don't have the `serve` alias, you can create it this way:
 
 `alias serve='ruby -run -e httpd . -p 8000'  # Or python -m SimpleHTTPServer :)`
 
@@ -17,7 +17,7 @@ If you don't have the `serve` alias, you can make one here:
 3. Register an account or login!
 
 
-## Dependency
+## Dependencies
 
 - bootstrap 4
 - jquery
