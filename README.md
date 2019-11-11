@@ -6,9 +6,16 @@ Event managers can use light dashboard to update data fast.
 
 ## Instructions
 
-1. Run a local server (use `serve` command) with port 8000 and open this dashboard on http://localhost:8000/
-2. Enter our 知晓云 clientID once
-3. Register an account or login
+1. Run a local server with port 8000 and open this dashboard on http://localhost:8000/.
+
+If you don't have the `serve` alias, you can make one here:
+
+`alias serve='ruby -run -e httpd . -p 8000'  # Or python -m SimpleHTTPServer :)`
+
+2. Enter our `知晓云 clientID` once
+
+3. Register an account or login!
+
 
 ## Dependency
 
