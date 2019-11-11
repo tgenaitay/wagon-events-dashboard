@@ -21,17 +21,18 @@
 </head>
 <body>
 <div id="root" class="container">
-  <h1 class="title">
-    Le Wagon 🇨🇳 | WeChat events dashboard
-  </h1>
+  <h2 class="title">
+    Le Wagon 🇨🇳 WeChat events dashboard
+  </h2>
   <ul class="list-group" style="margin-bottom: 20px;">
     <li v-for="event in eventList" class="list-group-item">
       <span>
-        <span class="badge badge-light badge-pill">{{event.date}}</span>
-      {{event.name}}
+        <span class="badge badge-dark">{{event.date}}</span>
+       {{event.name}}
+      <span class="badge badge-light badge-pill">{{event.rsvp}}</span>
       </span>
-      <span><button @click="editEvent(event)" class="btn btn-primary">Edit</button>
-      <button @click="deleteEvent(event)" class="btn btn-danger">Delete</button></span>
+      <span><button @click="editEvent(event)" class="btn btn-sm btn-primary">Edit</button>
+      <button @click="deleteEvent(event)" class="btn btn-sm btn-danger">Delete</button></span>
     </li>
   </ul>
   <div>

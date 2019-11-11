@@ -1,5 +1,6 @@
 let BaaS = window.BaaS
 let Events = new BaaS.TableObject('events')
+let Signups = new BaaS.TableObject('signups')
 let cacheKey = 'ifanrx_clientID'
 
 const Home = new Vue({
@@ -25,36 +26,11 @@ const Home = new Vue({
     }
   },
   methods: {
-    // createEvent() {
-    //   if (!this.creatingEventName) return false
-    //   let record = Events.create()
-    //   record.set({
-    //     name: this.creatingEventName
-    //   }).save().then(res => {
-    //     this.creatingEventName = ''
-    //     this.eventList.push({
-    //       id: res.data.id,
-    //       name: res.data.name,
-    //       disabled: true,
-    //     })
-    //   })
-    // },
     editEvent(event) {
-      // if (event.disabled) {
-      //   event.disabled = false
-      // } else {
-      //   let record = Events.getWithoutData(event.id)
-      //   record.set({
-      //     name: event.name
-      //     }).update().then(res => {
-      //     event.disabled = true
-      //   })
-      // }
       this.openEditModal()
       this.editForm.id = event.id
       this.editForm.name = event.name
       this.editForm.date = event.date
-
     },
     deleteEvent(event) {
       Events.delete(event.id).then(() => {
@@ -64,12 +40,19 @@ const Home = new Vue({
       })
     },
     getEventList() {
-      Events.offset(0).limit(1000).orderBy('-created_at').find().then(res => {
+      Events.offset(0).limit(1000).orderBy('-id').find().then(res => {
         res.data.objects.forEach(v => {
-          this.eventList.push({
-            id: v.id,
-            name: v.name,
-            date: v.date
+          let query = new BaaS.Query()
+          query.compare('event_id', '=', Events.getWithoutData(v.id))
+
+          Signups.setQuery(query).expand("events").find().then(res => {
+            let count = res.data.objects.length
+              this.eventList.push({
+              id: v.id,
+              name: v.name,
+              date: v.date,
+              rsvp: count
+              })
           })
         })
       })

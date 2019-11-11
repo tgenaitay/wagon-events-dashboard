@@ -12,6 +12,11 @@ html {
     justify-content: space-between;
 }
 
+.list-group-item .badge-dark {
+    width: 90px;
+    margin-right: 0.25em;
+}
+
 .list-group-item .form-control {
     width: unset;
     flex: 1;
