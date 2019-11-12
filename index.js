@@ -1,6 +1,7 @@
 let BaaS = window.BaaS
 let Events = new BaaS.TableObject('events')
 let Signups = new BaaS.TableObject('signups')
+let Attendees = new BaaS.TableObject('attendees')
 let cacheKey = 'ifanrx_clientID'
 
 const Home = new Vue({
@@ -20,6 +21,7 @@ const Home = new Vue({
         end_time: '',
         description: ''
       },
+      signUps: [],
       loginForm: {
         email: '',
         password: '',
@@ -76,6 +78,35 @@ const Home = new Vue({
         })
       })
     },
+    getAttendees(event) {
+
+      this.signUps = []
+
+      let query = new BaaS.Query()
+      query.compare('event_id', '=', Events.getWithoutData(event.id))
+
+      Signups.setQuery(query).expand("events").find().then(res => {
+
+        res.data.objects.forEach(v => {
+
+            let query2 = new BaaS.Query()
+            query2.compare('user_id', '=', v.user_id.id)
+
+          console.log(v.user_id.id)
+          const user = Attendees.setQuery(query2).find().then(res => {
+              this.signUps.push({
+                user_id: v.user_id.id,
+                real_name: res.data.objects[0].real_name,
+                email: res.data.objects[0].email,
+                phone: res.data.objects[0].phone,
+                occupation_tag: res.data.objects[0].occupation_tag
+              })
+          })
+        })
+        console.log(this.signUps)
+        this.openSignupsModal()
+      })
+    },
     openEditModal() {
       $('#editModal').modal()
     },
@@ -84,6 +115,9 @@ const Home = new Vue({
     },
     openRegisterModal() {
       $('#registerModal').modal()
+    },
+    openSignupsModal() {
+      $('#signupsModal').modal()
     },
     handleEdit() {
       console.log(this.editForm)
@@ -122,13 +156,19 @@ const Home = new Vue({
       BaaS.auth.login(this.loginForm).then(() => {
         $('#loginModal').modal('hide')
         this.init()
-      })
+      }, err => {
+          // err
+          window.alert('Login error, please try again')
+        })
     },
     handleRegister() {
       BaaS.auth.register(this.registerForm).then(() => {
         $('#registerModal').modal('hide')
         this.init()
-      })
+      }, err => {
+          // err
+          window.alert('Registration error, please try again')
+        })
     },
     init() {
       this.getEventList()

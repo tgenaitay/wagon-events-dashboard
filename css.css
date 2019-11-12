@@ -26,3 +26,7 @@ html {
     margin-left: 20px;
     flex-shrink: 0;
 }
+
+.cursor {
+  cursor: pointer;
+}
