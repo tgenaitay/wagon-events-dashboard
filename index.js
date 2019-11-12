@@ -40,7 +40,7 @@ const Home = new Vue({
       })
     },
     getEventList() {
-      Events.offset(0).limit(1000).orderBy('-id').find().then(res => {
+      Events.offset(0).limit(1000).orderBy('-created_at').find().then(res => {
         res.data.objects.forEach(v => {
           let query = new BaaS.Query()
           query.compare('event_id', '=', Events.getWithoutData(v.id))
@@ -51,8 +51,12 @@ const Home = new Vue({
               id: v.id,
               name: v.name,
               date: v.date,
+              city:  v.city,
               rsvp: count
               })
+              this.eventList.sort(function(a,b){
+                return Number(new Date(b.date)) - Number(new Date(a.date));
+              });
           })
         })
       })

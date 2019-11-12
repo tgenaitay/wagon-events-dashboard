@@ -28,7 +28,7 @@
     <li v-for="event in eventList" class="list-group-item">
       <span>
         <span class="badge badge-dark">{{event.date}}</span>
-       {{event.name}}
+       {{event.name}} ({{event.city}})
       <span class="badge badge-light badge-pill">{{event.rsvp}}</span>
       </span>
       <span><button @click="editEvent(event)" class="btn btn-sm btn-primary">Edit</button>
