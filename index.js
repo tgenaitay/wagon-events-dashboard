@@ -14,6 +14,11 @@ const Home = new Vue({
         id: '',
         name: '',
         date: '',
+        city: '',
+        address: '',
+        start_time: '',
+        end_time: '',
+        description: ''
       },
       loginForm: {
         email: '',
@@ -31,6 +36,7 @@ const Home = new Vue({
       this.editForm.id = event.id
       this.editForm.name = event.name
       this.editForm.date = event.date
+      this.editForm.city = event.city
     },
     deleteEvent(event) {
       Events.delete(event.id).then(() => {
@@ -51,7 +57,11 @@ const Home = new Vue({
               id: v.id,
               name: v.name,
               date: v.date,
+              start_time: v.start_time,
+              end_time: v.end_time,
               city:  v.city,
+              address: v.address,
+              description: v.description,
               rsvp: count
               })
               this.eventList.sort(function(a,b){
@@ -76,14 +86,24 @@ const Home = new Vue({
       console.log(record)
         record.set({
           name: this.editForm.name,
-          date: this.editForm.date
+          date: this.editForm.date,
+          start_time: this.editForm.start_time,
+          end_time: this.editForm.end_time,
+          city: this.editForm.city,
+          address: this.editForm.address,
+          description: this.editForm.description
         })
         record.update().then(res => {
           // success
           const i = this.eventList.findIndex(x => x.id === this.editForm.id)
           Home.$set(Home.eventList, i, {
           name: this.editForm.name,
-          date: this.editForm.date
+          date: this.editForm.date,
+          start_time: this.editForm.start_time,
+          end_time: this.editForm.end_time,
+          city: this.editForm.city,
+          address: this.editForm.address,
+          description: this.editForm.description
         })
           $('#editModal').modal('hide')
         }, err => {
