@@ -123,6 +123,21 @@
           <div class="form-group">
             <input v-model="editForm.end_time" class="form-control" placeholder="end time">
           </div>
+          <div class="form-row">
+              <div class="form-group col-md-8">
+                 <input v-model="editForm.image" class="form-control" :disabled="!!disabled">
+              </div>
+              <div class="form-group col-md-4">
+                <label for="file" class="custom-file-upload">
+                  <span class="btn btn-light" @click="disabled = !disabled">Change</span>
+                  <input type="file" id="file" ref="file" v-on:change="handleUpload()"/>
+                </label>
+                <!-- <button class="btn btn-light" @click="handleUpload">Change</button> -->
+              </div>
+          </div>
+          <div class="form-group text-monospace text-center small" v-if="image">
+            {{image}}
+          </div>
           <div class="form-group">
             <textarea name="" id="" cols="30" rows="10" v-model="editForm.description" class="form-control"></textarea>
           </div>

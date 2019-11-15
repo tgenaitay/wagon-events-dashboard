@@ -10,6 +10,7 @@ const Home = new Vue({
     return {
       currentRoute: window.location.pathname,
       eventList: [],
+      disabled: 0,
       editingEvent: '',
       editForm: {
         id: '',
@@ -19,8 +20,10 @@ const Home = new Vue({
         address: '',
         start_time: '',
         end_time: '',
-        description: ''
+        description: '',
+        image: ''
       },
+      image: '',
       signUps: [],
       loginForm: {
         email: '',
@@ -42,6 +45,7 @@ const Home = new Vue({
       this.editForm.start_time = event.start_time
       this.editForm.end_time = event.end_time
       this.editForm.description = event.description
+      this.editForm.image = event.image
       console.log(this.editForm)
       this.openEditModal()
     },
@@ -74,7 +78,8 @@ const Home = new Vue({
                 description: v.description,
                 start_time: v.start_time,
                 end_time: v.end_time,
-                rsvp: count
+                rsvp: count,
+                image: v.image
               };
               resolve({ date: new Date(event.date), event: event} );
             })
@@ -117,6 +122,7 @@ const Home = new Vue({
       })
     },
     openEditModal() {
+      this.image = ''
       $('#editModal').modal()
     },
     openLoginModal() {
@@ -131,7 +137,9 @@ const Home = new Vue({
     handleEdit() {
       console.log(this.editForm)
       let record = Events.getWithoutData(this.editForm.id)
-      console.log(record)
+
+      // New data set
+
       record.set({
         name: this.editForm.name,
         date: this.editForm.date,
@@ -139,8 +147,12 @@ const Home = new Vue({
         address: this.editForm.address,
         start_time: this.editForm.start_time,
         end_time: this.editForm.end_time,
-        description: this.editForm.description
+        description: this.editForm.description,
+        image: this.editForm.image
       })
+
+      // Upload to Minapp
+
       record.update().then(res => {
           // success
           const i = this.eventList.findIndex(x => x.id === this.editForm.id)
@@ -152,7 +164,8 @@ const Home = new Vue({
             start_time: this.editForm.start_time,
             end_time: this.editForm.end_time,
             description: this.editForm.description,
-            rsvp: this.eventList[i].rsvp
+            rsvp: this.eventList[i].rsvp,
+            image: this.editForm.image
           })
           $('#editModal').modal('hide')
         }, err => {
@@ -178,6 +191,28 @@ const Home = new Vue({
           // err
           window.alert('Registration error, please try again')
         })
+    },
+    handleUpload(){
+      console.log(this.$refs.file.files[0])
+      // loading fileobject in local storage
+      this.image = this.$refs.file.files[0].type + ' loaded!'
+
+      let File = new BaaS.File()
+      let fileParams = {fileObj:this.$refs.file.files[0]}
+
+       File.upload(fileParams).then(res => {
+        // OK
+
+         console.log(res.path)
+
+         // Setting new image in local data
+         this.editForm.image = res.path
+
+       }, err => {
+       // HError
+         window.alert("Image error")
+      })
+
     },
     init() {
       this.getEventList()
