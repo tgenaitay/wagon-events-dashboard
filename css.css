@@ -34,3 +34,15 @@ html {
 input[type="file"] {
     display: none;
 }
+
+.card {
+  margin-bottom: 1rem;
+  min-height: 410px;
+}
+
+img.card-img-top {
+  min-height: 171px;
+  background-color: lightgray;
+  max-height: 171px;
+  object-fit: cover;
+}

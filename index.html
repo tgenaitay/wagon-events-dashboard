@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <meta name="renderer" content="webkit">
   <meta name="format-detection" content="telephone=no, email=no" />
@@ -12,11 +12,11 @@
   <script src="https://dl.ifanr.cn/hydrogen/sdk/sdk-web-latest.js"></script>
   <script src="https://cdn.bootcss.com/vue/2.5.22/vue.js"></script>
   <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-          crossorigin="anonymous"></script>
+  crossorigin="anonymous"></script>
   <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-          crossorigin="anonymous"></script>
+  crossorigin="anonymous"></script>
   <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-          crossorigin="anonymous"></script>
+  crossorigin="anonymous"></script>
   <title>Le Wagon 🇨🇳 WeChat events</title>
 </head>
 <body>
@@ -24,7 +24,30 @@
   <h2 class="title">
     Le Wagon 🇨🇳 WeChat events dashboard
   </h2>
-  <ul class="list-group" style="margin-bottom: 20px;">
+
+  <div class="row">
+    <div class="col-sm" v-for="event in eventList">
+      <div class="card" style="width: 18rem;">
+        <img class="card-img-top" :src="event.image">
+        <div class="card-body">
+          <h5 class="card-title">{{event.name}} ({{event.city}})</h5>
+          <h6 class="card-subtitle mb-2 text-muted">{{event.date}}</h6>
+          <p class="card-text"><span class="badge badge-light badge-pill cursor" @click="getAttendees(event)">{{event.rsvp}}</span> attendee(s)</p>
+<!--           <div>
+            <button @click="editEvent(event)" class="btn btn-sm btn-primary">Edit</button>
+            <button @click="deleteEvent(event)" class="btn btn-sm btn-danger">Delete</button>
+          </div> -->
+        </div>
+        <div class="card-footer text-muted">
+          <button @click="editEvent(event)" class="btn btn-sm btn-primary">Edit</button>
+          <button @click="deleteEvent(event)" class="btn btn-sm btn-danger">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+<!--   <ul class="list-group" style="margin-bottom: 20px;">
     <li v-for="event in eventList" class="list-group-item">
       <span>
         <span class="badge badge-dark">{{event.date}}</span>
@@ -34,7 +57,7 @@
       <span><button @click="editEvent(event)" class="btn btn-sm btn-primary">Edit</button>
       <button @click="deleteEvent(event)" class="btn btn-sm btn-danger">Delete</button></span>
     </li>
-  </ul>
+  </ul> -->
   <div>
     <!-- <div class="form-group">
       <input v-model="creatingEventName" type="text" class="form-control" placeholder="Event name here">
@@ -118,48 +141,53 @@
             <input v-model="editForm.city" class="form-control" placeholder="city">
           </div>
           <div class="form-group">
+            <select placeholder='driver' v-model="editForm.driver" class="form-control">
+              <option v-for="dn in driver_names">{{dn}}</option>
+            </select>
+          </div>
+          <div class="form-group">
             <input v-model="editForm.start_time" class="form-control" placeholder="start time">
           </div>
           <div class="form-group">
             <input v-model="editForm.end_time" class="form-control" placeholder="end time">
           </div>
           <div class="form-row">
-              <div class="form-group col-md-8">
-                 <input v-model="editForm.image" class="form-control" :disabled="!!disabled">
-              </div>
-              <div class="form-group col-md-4">
-                <label for="file" class="custom-file-upload">
-                  <span class="btn btn-light" @click="disabled = !disabled">Change</span>
-                  <input type="file" id="file" ref="file" v-on:change="handleUpload()"/>
-                </label>
-                <!-- <button class="btn btn-light" @click="handleUpload">Change</button> -->
-              </div>
-          </div>
-          <div class="form-group text-monospace text-center small" v-if="image">
-            {{image}}
-          </div>
-          <div class="form-group">
-            <textarea name="" id="" cols="30" rows="10" v-model="editForm.description" class="form-control"></textarea>
+            <div class="form-group col-md-8">
+             <input v-model="editForm.image" class="form-control" :disabled="!!disabled">
+           </div>
+           <div class="form-group col-md-4">
+            <label for="file" class="custom-file-upload">
+              <span class="btn btn-light" @click="disabled = !disabled">Change</span>
+              <input type="file" id="file" ref="file" v-on:change="handleUpload()"/>
+            </label>
+            <!-- <button class="btn btn-light" @click="handleUpload">Change</button> -->
           </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" @click="handleEdit">Save</button>
+        <div class="form-group text-monospace text-center small" v-if="image">
+          {{image}}
         </div>
+        <div class="form-group">
+          <textarea name="" id="" cols="30" rows="10" v-model="editForm.description" class="form-control"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" @click="handleEdit">Save</button>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- Modal -->
-  <div class="modal fade" id="signupsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Attendees</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
+<!-- Modal -->
+<div class="modal fade" id="signupsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Attendees</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
 
         <table class="table table-striped">
           <thead>
@@ -179,13 +207,13 @@
             </tr>
           </tbody>
         </table>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
+</div>
 
 </div>
 <script src="index.js"></script>

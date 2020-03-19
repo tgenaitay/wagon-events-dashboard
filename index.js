@@ -2,7 +2,8 @@ let BaaS = window.BaaS
 let Events = new BaaS.TableObject('events')
 let Signups = new BaaS.TableObject('signups')
 let Attendees = new BaaS.TableObject('attendees')
-let cacheKey = 'ifanrx_clientID'
+let Drivers = new BaaS.TableObject('drivers')
+// let cacheKey = 'ifanrx_clientID'
 
 const Home = new Vue({
   el: '#root',
@@ -10,6 +11,8 @@ const Home = new Vue({
     return {
       currentRoute: window.location.pathname,
       eventList: [],
+      drivers: {},
+      driver_names: [],
       disabled: 0,
       editingEvent: '',
       editForm: {
@@ -17,6 +20,7 @@ const Home = new Vue({
         name: '',
         date: '',
         city: '',
+        driver: '',
         address: '',
         start_time: '',
         end_time: '',
@@ -37,17 +41,27 @@ const Home = new Vue({
   },
   methods: {
     editEvent(event) {
+      console.log(event)
       this.editForm.id = event.id
       this.editForm.name = event.name
       this.editForm.date = event.date
       this.editForm.city = event.city
+      this.editForm.driver = event.driver
       this.editForm.address = event.address
       this.editForm.start_time = event.start_time
       this.editForm.end_time = event.end_time
       this.editForm.description = event.description
       this.editForm.image = event.image
-      console.log(this.editForm)
       this.openEditModal()
+    },
+    getDrivers() {
+      let that = this
+      Drivers.offset(0).limit(100).orderBy('-created_at').find().then(res => {
+        res.data.objects.forEach(d => {
+          that.drivers[d.full_name] = d.id
+          that.driver_names.push(d.full_name)
+        })
+      }, err => {console.log('failed fetching drivers', err)})
     },
     deleteEvent(event) {
       Events.delete(event.id).then(() => {
@@ -74,6 +88,7 @@ const Home = new Vue({
                 name: v.name,
                 date: v.date,
                 city:  v.city,
+                driver: Object.keys(that.drivers).find(key => that.drivers[key] === v.driver_id),
                 address: v.address,
                 description: v.description,
                 start_time: v.start_time,
@@ -135,7 +150,7 @@ const Home = new Vue({
       $('#signupsModal').modal()
     },
     handleEdit() {
-      console.log(this.editForm)
+      let that = this
       let record = Events.getWithoutData(this.editForm.id)
 
       // New data set
@@ -144,6 +159,7 @@ const Home = new Vue({
         name: this.editForm.name,
         date: this.editForm.date,
         city: this.editForm.city,
+        driver_id: that.drivers[this.editForm.driver],
         address: this.editForm.address,
         start_time: this.editForm.start_time,
         end_time: this.editForm.end_time,
@@ -160,6 +176,7 @@ const Home = new Vue({
             name: this.editForm.name,
             date: this.editForm.date,
             city: this.editForm.city,
+            driver: this.editForm.driver,
             address: this.editForm.address,
             start_time: this.editForm.start_time,
             end_time: this.editForm.end_time,
@@ -216,20 +233,21 @@ const Home = new Vue({
     },
     init() {
       this.getEventList()
+      this.getDrivers()
       console.log(this.eventList)
     },
   },
   mounted() {
-    if (!localStorage.getItem(cacheKey)) {
-      while (true) {
-        let clientID = window.prompt('Please provide the clientID')  // 从 BaaS 后台获取 ClientID
-        if (clientID && clientID.match(/\w{20}/)) {
-          localStorage.setItem(cacheKey, clientID) // 若输入了错误的 clientID，可以清空 localStorage
-          break
-        }
-      }
-    }
-    BaaS.init(localStorage.getItem(cacheKey))
+    // if (!localStorage.getItem(cacheKey)) {
+    //   while (true) {
+    //     let clientID = window.prompt('Please provide the clientID')  // 从 BaaS 后台获取 ClientID
+    //     if (clientID && clientID.match(/\w{20}/)) {
+    //       localStorage.setItem(cacheKey, clientID) // 若输入了错误的 clientID，可以清空 localStorage
+    //       break
+    //     }
+    //   }
+    // }
+    BaaS.init("d06840973e93da8277d9") // clientID for this App
     BaaS.auth.getCurrentUser().then(() => {
       this.init()
     }).catch(e => {
