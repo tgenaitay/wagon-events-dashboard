@@ -52,6 +52,7 @@ const Home = new Vue({
       this.editForm.end_time = event.end_time
       this.editForm.description = event.description
       this.editForm.image = event.image
+      this.editForm.notify = false
       this.openEditModal()
     },
     getDrivers() {
@@ -64,11 +65,14 @@ const Home = new Vue({
       }, err => {console.log('failed fetching drivers', err)})
     },
     deleteEvent(event) {
-      Events.delete(event.id).then(() => {
-        this.eventList = this.eventList.filter(v => {
-          return v.id !== event.id
-        })
-      })
+      let go = confirm("Please confirm you want to delete this event");
+      if (go == true) {
+              Events.delete(event.id).then(() => {
+                this.eventList = this.eventList.filter(v => {
+                  return v.id !== event.id
+                })
+              })
+      }
     },
     getEventList() {
       let that = this;
@@ -128,13 +132,42 @@ const Home = new Vue({
               real_name: res.data.objects[0].real_name,
               email: res.data.objects[0].email,
               phone: res.data.objects[0].phone,
-              occupation_tag: res.data.objects[0].occupation_tag
+              lead: res.data.objects[0].lead
             })
           })
         })
         console.log(this.signUps)
         this.openSignupsModal()
       })
+    },
+    downloadAttendees() {
+      let data = this.signUps;
+
+      let csv = '';
+
+      csv += 'User ID' + ';' + 'Name' + ';' + 'Phone' + ';' + 'Email' + ';' + 'Lead'
+
+      csv += '\r\n';
+
+      for(let row = 0; row < data.length; row++){
+          let keysAmount = Object.keys(data[row]).length
+          let keysCounter = 0
+           for(let key in data[row]){
+               csv += data[row][key] + (keysCounter+1 < keysAmount ? ';' : '\r\n' )
+               keysCounter++
+           }
+          keysCounter = 0
+      }
+
+      console.log(csv)
+
+      let link = document.createElement('a')
+      link.id = 'download-csv'
+      link.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv));
+      link.setAttribute('download', 'attendees.csv');
+      document.body.appendChild(link)
+      document.querySelector('#download-csv').click()
+
     },
     openEditModal() {
       this.image = ''
@@ -164,7 +197,8 @@ const Home = new Vue({
         start_time: this.editForm.start_time,
         end_time: this.editForm.end_time,
         description: this.editForm.description,
-        image: this.editForm.image
+        image: this.editForm.image,
+        notify: this.editForm.notify
       })
 
       // Upload to Minapp

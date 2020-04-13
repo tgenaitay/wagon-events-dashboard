@@ -33,10 +33,6 @@
           <h5 class="card-title">{{event.name}} ({{event.city}})</h5>
           <h6 class="card-subtitle mb-2 text-muted">{{event.date}}</h6>
           <p class="card-text"><span class="badge badge-light badge-pill cursor" @click="getAttendees(event)">{{event.rsvp}}</span> attendee(s)</p>
-<!--           <div>
-            <button @click="editEvent(event)" class="btn btn-sm btn-primary">Edit</button>
-            <button @click="deleteEvent(event)" class="btn btn-sm btn-danger">Delete</button>
-          </div> -->
         </div>
         <div class="card-footer text-muted">
           <button @click="editEvent(event)" class="btn btn-sm btn-primary">Edit</button>
@@ -46,26 +42,7 @@
     </div>
   </div>
 
-
-<!--   <ul class="list-group" style="margin-bottom: 20px;">
-    <li v-for="event in eventList" class="list-group-item">
-      <span>
-        <span class="badge badge-dark">{{event.date}}</span>
-       {{event.name}} ({{event.city}})
-      <span class="badge badge-light badge-pill cursor" @click="getAttendees(event)">{{event.rsvp}}</span>
-      </span>
-      <span><button @click="editEvent(event)" class="btn btn-sm btn-primary">Edit</button>
-      <button @click="deleteEvent(event)" class="btn btn-sm btn-danger">Delete</button></span>
-    </li>
-  </ul> -->
-  <div>
-    <!-- <div class="form-group">
-      <input v-model="creatingEventName" type="text" class="form-control" placeholder="Event name here">
-    </div>
-    <button @click="createEvent" class="btn form-control btn-primary">添加 Create</button> -->
-  </div>
-
-  <!-- Modal -->
+  <!-- Modal Login -->
   <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -91,7 +68,7 @@
     </div>
   </div>
 
-  <!-- Modal -->
+  <!-- Modal Register-->
   <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -117,7 +94,7 @@
     </div>
   </div>
 
-  <!-- Modal -->
+  <!-- Modal Edit Event -->
   <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable" role="document">
       <div class="modal-content">
@@ -160,7 +137,6 @@
               <span class="btn btn-light" @click="disabled = !disabled">Change</span>
               <input type="file" id="file" ref="file" v-on:change="handleUpload()"/>
             </label>
-            <!-- <button class="btn btn-light" @click="handleUpload">Change</button> -->
           </div>
         </div>
         <div class="form-group text-monospace text-center small" v-if="image">
@@ -171,13 +147,15 @@
         </div>
       </div>
       <div class="modal-footer">
+        <input type="checkbox" id="notify" value="yes" v-model="editForm.notify">
+        <label for="notify"> Notify attendees ⚠️</label>
         <button type="button" class="btn btn-primary" @click="handleEdit">Save</button>
       </div>
     </div>
   </div>
-</div>
+  </div>
 
-<!-- Modal -->
+<!-- Modal Attendees List -->
 <div class="modal fade" id="signupsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl" role="document">
     <div class="modal-content">
@@ -195,7 +173,7 @@
               <th scope="col">Phone</th>
               <th scope="col">Name</th>
               <th scope="col">Email</th>
-              <th scope="col">Occupation</th>
+              <th scope="col">Lead</th>
             </tr>
           </thead>
           <tbody>
@@ -203,12 +181,13 @@
               <th scope="row">{{attendee.phone}}</th>
               <td>{{attendee.real_name}}</td>
               <td>{{attendee.email}}</td>
-              <td>{{attendee.occupation_tag}}</td>
+              <td>{{attendee.lead}}</td>
             </tr>
           </tbody>
         </table>
       </div>
       <div class="modal-footer">
+        <button type="button" class="btn btn-info" @click="downloadAttendees">Download attendees</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
