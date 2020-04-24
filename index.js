@@ -85,7 +85,7 @@ const Home = new Vue({
           query.compare('event_id', '=', Events.getWithoutData(v.id))
 
           let eventLoaded = new Promise((resolve, reject) => {
-            Signups.setQuery(query).expand("events").find().then(res => {
+            Signups.setQuery(query).expand("events").limit(1000).find().then(res => {
               let count = res.data.objects.length
               let event = {
                 id: v.id,
@@ -118,7 +118,7 @@ const Home = new Vue({
       let query = new BaaS.Query()
       query.compare('event_id', '=', Events.getWithoutData(event.id))
 
-      Signups.setQuery(query).expand("events").find().then(res => {
+      Signups.setQuery(query).expand("events").limit(1000).find().then(res => {
 
         res.data.objects.forEach(v => {
 
@@ -145,7 +145,7 @@ const Home = new Vue({
 
       let csv = '';
 
-      csv += 'User ID' + ';' + 'Name' + ';' + 'Phone' + ';' + 'Email' + ';' + 'Lead'
+      csv += 'User ID' + ';' + 'Name' + ';' + 'Email' + ';' + 'Phone' + ';' + 'Lead'
 
       csv += '\r\n';
 
