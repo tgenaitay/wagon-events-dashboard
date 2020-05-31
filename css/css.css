@@ -2,6 +2,28 @@ html {
     font-size: 17px;
 }
 
+.bg-grey {
+  background-color: #F7F7F7;
+}
+
+.wrapper-white {
+  background-color: white;
+}
+
+.navbar {
+  padding: 5px 0;
+  height: 45px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar .logo svg {
+    width: 35px;
+    height: 35px;
+    margin-top: 0px !important;
+}
+
 .title {
     text-align: center;
     margin: 2.5rem 0px;
@@ -35,6 +57,14 @@ input[type="file"] {
     display: none;
 }
 
+.container {
+  padding: 0;
+}
+
+.row {
+  padding-top: 1.5rem !important;
+}
+
 .card {
   margin-bottom: 1rem;
   min-height: 410px;
@@ -45,4 +75,8 @@ img.card-img-top {
   background-color: lightgray;
   max-height: 171px;
   object-fit: cover;
+}
+
+.table {
+  font-size: 0.9rem;
 }

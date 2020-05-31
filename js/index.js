@@ -5,8 +5,16 @@ let Attendees = new BaaS.TableObject('attendees')
 let Drivers = new BaaS.TableObject('drivers')
 // let cacheKey = 'ifanrx_clientID'
 
+const dateFilter = function(value) {
+  const date = new Date(value)
+  return date.toLocaleDateString(['en-US'], {month: 'short', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'})
+}
+
 const Home = new Vue({
   el: '#root',
+  filters: {
+    dateFormat: dateFilter
+  },
   data() {
     return {
       currentRoute: window.location.pathname,
@@ -118,22 +126,27 @@ const Home = new Vue({
       let query = new BaaS.Query()
       query.compare('event_id', '=', Events.getWithoutData(event.id))
 
-      Signups.setQuery(query).expand("events").limit(1000).find().then(res => {
+      Signups.setQuery(query).expand("events").limit(1000).orderBy('created_at').find().then(res => {
+
+        //listing all sign ups for the event we're interested in
 
         res.data.objects.forEach(v => {
 
+          // for each sign up, finding the attendees personal information
+
           let query2 = new BaaS.Query()
           query2.compare('user_id', '=', v.user_id.id)
-
-          console.log(v.user_id.id)
           const user = Attendees.setQuery(query2).find().then(res => {
+
             this.signUps.push({
               user_id: v.user_id.id,
+              created_at: new Date(v.created_at * 1000),
               real_name: res.data.objects[0].real_name,
               email: res.data.objects[0].email,
               phone: res.data.objects[0].phone,
               lead: res.data.objects[0].lead
             })
+
           })
         })
         console.log(this.signUps)

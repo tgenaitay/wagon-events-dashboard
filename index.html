@@ -7,39 +7,57 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <meta name="renderer" content="webkit">
   <meta name="format-detection" content="telephone=no, email=no" />
-  <link href="https://cdn.bootcss.com/twitter-bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="css.css">
-  <script src="https://dl.ifanr.cn/hydrogen/sdk/sdk-web-latest.js"></script>
-  <script src="https://cdn.bootcss.com/vue/2.5.22/vue.js"></script>
-  <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-  crossorigin="anonymous"></script>
-  <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-  crossorigin="anonymous"></script>
-  <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-  crossorigin="anonymous"></script>
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/css.css">
+  <script src="sdk/sdk-web-latest.js"></script>
+  <script src="js/vue.js"></script>
+  <script src="js/jquery.slim.min.js"></script>
+  <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
   <title>Le Wagon 🇨🇳 WeChat events</title>
 </head>
-<body>
-<div id="root" class="container">
-  <h2 class="title">
-    Le Wagon 🇨🇳 WeChat events dashboard
-  </h2>
+<body class="bg-grey">
+<div id="root">
+  <div class="wrapper-white">
+    <div class="container navbar">
+      <a class="logo" href="/">
+      <svg width="166px" height="166px" viewBox="0 0 166 166" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+          <title>nest</title>
+          <desc>Created with Sketch.</desc>
+          <defs></defs>
+          <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+              <g id="logo" transform="translate(-374.000000, -138.000000)">
+                  <g id="le-wagon-color" transform="translate(374.000000, 138.000000)">
+                      <g id="nest">
+                          <circle id="bg" fill="#FD1015" cx="83" cy="83" r="83"></circle>
+                          <path d="M101.029636,104.150045 C100.957244,104.631149 100.542106,105 100.040817,105 C100.027146,105 100.013538,104.999726 100,104.999182 L100,105 L64,105 C63.4477153,105 63,104.552285 63,104 L62.9589262,104 C62.4507753,97.8404695 57.2906638,93 51,93 C44.7093362,93 39.5492247,97.8404695 39.0410738,104 L39.0405884,104 C39.0405884,104.002043 39.0405823,104.004085 39.04057,104.006125 C39.0367224,104.053055 39.0331449,104.100061 39.0298389,104.147143 C38.9586834,104.629665 38.5428841,105 38.0405884,105 C38.0269939,105 38.0134627,104.999729 38,104.999191 L38,105 L35,105 C34.4477153,105 34,104.552285 34,104 L34,102 C34,101.447715 34.4477153,101 35,101 L34.9999976,88 C35,87.4477153 35.4477153,87 36,87 L113.010693,87 C118.355532,87 123.155951,89.330937 126.450859,93.0317203 C126.699097,93.3105364 127.011251,93.7003163 127.38732,94.2010599 C127.765086,94.7040624 128.357492,95.0000232 128.986554,95.0000232 L128.986554,95 L130.038452,95 C130.779071,95 131.768436,95.0000035 133.006546,95.0000105 C134.108105,95.0035399 135,95.8976134 135,97 L135,103 C135,104.104569 134.104569,105 133,105 L126,105 L126,104.999209 C125.986688,104.999735 125.97331,105 125.959869,105 C125.455423,105 125.038215,104.626487 124.969724,104.140939 C124.966689,104.098039 124.963429,104.055202 124.959945,104.012428 C124.959895,104.008291 124.959869,104.004148 124.959869,104 L124.958926,104 C124.450775,97.8404695 119.290664,93 113,93 C106.709336,93 101.549225,97.8404695 101.041074,104 L101.040817,104 C101.040817,104.001058 101.040816,104.002117 101.040812,104.003174 C101.036793,104.052049 101.033067,104.101006 101.029636,104.150045 Z M133,90 C133,90.5522847 132.552285,91 132,91 L130.427692,91 C130.142208,91 129.870334,90.8779875 129.680568,90.6647031 L129.680596,90.6646776 C129.024553,89.9273294 128.505191,89.3775777 128.122508,89.0154225 C124.182429,85.2866944 118.863604,83 113.010693,83 L36,83 C35.4477153,83 35,82.5522847 35,82 L34.9999921,58.736075 C34.9999959,54.2482635 38.3062018,50.4462567 42.7505568,49.8232305 C56.1768926,47.9410768 68.8170064,47 80.6708984,47 C101.835449,47 110.064262,48.6846001 118,53 C122.832355,55.6278014 127.42235,61.9736051 131.769986,72.0374111 C132.581414,73.9156803 133,75.940097 133,77.9861444 L133,90 Z M34.9999968,84 L35,84 L35,86 L34.9999972,86 L34.9999968,84 Z M41,58 C40.4477153,58 40,58.4477153 40,59 L40,74 C40,74.5522847 40.4477153,75 41,75 L56,75 C56.5522847,75 57,74.5522847 57,74 L57,59 C57,58.4477153 56.5522847,58 56,58 L41,58 Z M83,58 C82.4477153,58 82,58.4477153 82,59 L82,74 C82,74.5522847 82.4477153,75 83,75 L98,75 C98.5522847,75 99,74.5522847 99,74 L99,59 C99,58.4477153 98.5522847,58 98,58 L83,58 Z M62,58 C61.4477153,58 61,58.4477153 61,59 L61,74 C61,74.5522847 61.4477153,75 62,75 L77,75 C77.5522847,75 78,74.5522847 78,74 L78,59 C78,58.4477153 77.5522847,58 77,58 L62,58 Z M103.999982,57.9999992 C103.447697,57.9999992 102.999982,58.4477144 102.999982,58.9999992 L102.999983,74 C102.999983,74.5522847 103.447698,75 103.999983,75 L127.060047,75 C127.182584,75 127.304078,74.9774779 127.418473,74.9335561 C127.934046,74.7356028 128.191528,74.1571751 127.993575,73.6416015 L127.993601,73.6415916 C126.89762,70.7870862 125.630873,68.1617233 124.193359,65.7655029 C123.977296,65.4053417 123.778638,65.0482724 123.597399,64.6942888 C121.493304,60.5850578 117.265424,58.0000062 112.648824,58.0000039 L103.999983,57.9999997 Z M51,113 C46.581722,113 43,109.418278 43,105 C43,100.581722 46.581722,97 51,97 C55.418278,97 59,100.581722 59,105 C59,109.418278 55.418278,113 51,113 Z M51,109 C53.209139,109 55,107.209139 55,105 C55,102.790861 53.209139,101 51,101 C48.790861,101 47,102.790861 47,105 C47,107.209139 48.790861,109 51,109 Z M113,113 C108.581722,113 105,109.418278 105,105 C105,100.581722 108.581722,97 113,97 C117.418278,97 121,100.581722 121,105 C121,109.418278 117.418278,113 113,113 Z M113,109 C115.209139,109 117,107.209139 117,105 C117,102.790861 115.209139,101 113,101 C110.790861,101 109,102.790861 109,105 C109,107.209139 110.790861,109 113,109 Z" id="van" fill="#FFFFFF"></path>
+                      </g>
+                  </g>
+              </g>
+          </g>
+      </svg>
+      </a>
+    </div>
+  </div>
+  <div class="container">
 
-  <div class="row">
-    <div class="col-sm" v-for="event in eventList">
-      <div class="card" style="width: 18rem;">
-        <img class="card-img-top" :src="event.image">
-        <div class="card-body">
-          <h5 class="card-title">{{event.name}} ({{event.city}})</h5>
-          <h6 class="card-subtitle mb-2 text-muted">{{event.date}}</h6>
-          <p class="card-text"><span class="badge badge-light badge-pill cursor" @click="getAttendees(event)">{{event.rsvp}}</span> attendee(s)</p>
-        </div>
-        <div class="card-footer text-muted">
-          <button @click="editEvent(event)" class="btn btn-sm btn-primary">Edit</button>
-          <button @click="deleteEvent(event)" class="btn btn-sm btn-danger">Delete</button>
+    <div class="row">
+      <div class="col-sm" v-for="event in eventList">
+        <div class="card" style="width: 18rem;">
+          <img class="card-img-top" :src="event.image">
+          <div class="card-body">
+            <h5 class="card-title">{{event.name}} ({{event.city}})</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{event.date}}</h6>
+            <p class="card-text"><span class="badge badge-light badge-pill cursor" @click="getAttendees(event)">{{event.rsvp}}</span> attendee(s)</p>
+          </div>
+          <div class="card-footer text-muted">
+            <button @click="editEvent(event)" class="btn btn-sm btn-primary">Edit</button>
+            <button @click="deleteEvent(event)" class="btn btn-sm btn-danger">Delete</button>
+          </div>
         </div>
       </div>
     </div>
+
   </div>
 
   <!-- Modal Login -->
@@ -155,46 +173,48 @@
   </div>
   </div>
 
-<!-- Modal Attendees List -->
-<div class="modal fade" id="signupsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-xl" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Attendees</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
+  <!-- Modal Attendees List -->
+  <div class="modal fade" id="signupsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Attendees</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
 
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th scope="col">Phone</th>
-              <th scope="col">Name</th>
-              <th scope="col">Email</th>
-              <th scope="col">Lead</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="attendee in signUps">
-              <th scope="row">{{attendee.phone}}</th>
-              <td>{{attendee.real_name}}</td>
-              <td>{{attendee.email}}</td>
-              <td>{{attendee.lead}}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-info" @click="downloadAttendees">Download attendees</button>
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Created at</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Lead</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="attendee in signUps">
+                <th scope="row">{{attendee.created_at | dateFormat}}</th>
+                <th scope="row">{{attendee.phone}}</th>
+                <td scope="row">{{attendee.real_name}}</td>
+                <td scope="row">{{attendee.email}}</td>
+                <td scope="row">{{attendee.lead}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-info" @click="downloadAttendees">Download attendees</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
 </div>
-<script src="index.js"></script>
+<script src="js/index.js"></script>
 </body>
 </html>
