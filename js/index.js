@@ -30,6 +30,7 @@ const Home = new Vue({
         city: '',
         driver: '',
         address: '',
+        clipboard: '',
         start_time: '',
         end_time: '',
         description: '',
@@ -56,6 +57,7 @@ const Home = new Vue({
       this.editForm.city = event.city
       this.editForm.driver = event.driver
       this.editForm.address = event.address
+      this.editForm.clipboard = event.clipboard
       this.editForm.start_time = event.start_time
       this.editForm.end_time = event.end_time
       this.editForm.description = event.description
@@ -102,6 +104,7 @@ const Home = new Vue({
                 city:  v.city,
                 driver: Object.keys(that.drivers).find(key => that.drivers[key] === v.driver_id),
                 address: v.address,
+                clipboard: v.clipboard,
                 description: v.description,
                 start_time: v.start_time,
                 end_time: v.end_time,
@@ -158,7 +161,7 @@ const Home = new Vue({
 
       let csv = '';
 
-      csv += 'User ID' + ';' + 'Name' + ';' + 'Email' + ';' + 'Phone' + ';' + 'Lead'
+      csv += 'User ID' + ';' + 'Registration' + ';' + 'Name' + ';' + 'Email' + ';' + 'Phone' + ';' + 'Lead'
 
       csv += '\r\n';
 
@@ -207,6 +210,7 @@ const Home = new Vue({
         city: this.editForm.city,
         driver_id: that.drivers[this.editForm.driver],
         address: this.editForm.address,
+        clipboard: this.editForm.clipboard,
         start_time: this.editForm.start_time,
         end_time: this.editForm.end_time,
         description: this.editForm.description,
@@ -225,6 +229,7 @@ const Home = new Vue({
             city: this.editForm.city,
             driver: this.editForm.driver,
             address: this.editForm.address,
+            clipboard: this.editForm.clipboard,
             start_time: this.editForm.start_time,
             end_time: this.editForm.end_time,
             description: this.editForm.description,
