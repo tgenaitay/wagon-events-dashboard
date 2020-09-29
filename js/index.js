@@ -147,7 +147,8 @@ const Home = new Vue({
               real_name: res.data.objects[0].real_name,
               email: res.data.objects[0].email,
               phone: res.data.objects[0].phone,
-              lead: res.data.objects[0].lead
+              lead: res.data.objects[0].lead,
+              mailing: res.data.objects[0].mailing
             })
 
           })
@@ -161,7 +162,7 @@ const Home = new Vue({
 
       let csv = '';
 
-      csv += 'User ID' + ';' + 'Registration' + ';' + 'Name' + ';' + 'Email' + ';' + 'Phone' + ';' + 'Lead'
+      csv += 'User ID' + ';' + 'Registration' + ';' + 'Name' + ';' + 'Email' + ';' + 'Phone' + ';' + 'Lead' + ';' + 'Mailing'
 
       csv += '\r\n';
 
