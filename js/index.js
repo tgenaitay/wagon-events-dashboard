@@ -308,7 +308,7 @@ const Home = new Vue({
     fetch('https://hzcx1ko8.minapp-faas.com/prod/')
       .then(res => res.json())
       .then(data => {
-        BaaS.init(data.clientid) // clientID for this App
+        BaaS.init(data.minapp) // clientID for this App
         BaaS.auth.getCurrentUser().then(() => {
           this.init()
         }).catch(e => {
@@ -317,4 +317,3 @@ const Home = new Vue({
       })
   }
 })
-
