@@ -34,7 +34,8 @@ const Home = new Vue({
         start_time: '',
         end_time: '',
         description: '',
-        image: ''
+        image: '',
+        price: 0
       },
       image: '',
       signUps: [],
@@ -62,6 +63,7 @@ const Home = new Vue({
       this.editForm.end_time = event.end_time
       this.editForm.description = event.description
       this.editForm.image = event.image
+      this.editForm.price = Number.parseInt(event.price, 10) || 0
       this.editForm.notify = false
       this.openEditModal()
     },
@@ -108,6 +110,7 @@ const Home = new Vue({
                 description: v.description,
                 start_time: v.start_time,
                 end_time: v.end_time,
+                price: v.price,
                 rsvp: count,
                 image: v.image
               };
@@ -216,7 +219,8 @@ const Home = new Vue({
         end_time: this.editForm.end_time,
         description: this.editForm.description,
         image: this.editForm.image,
-        notify: this.editForm.notify
+        notify: this.editForm.notify,
+        price: Number.parseInt(this.editForm.price, 10)
       })
 
       // Upload to Minapp
@@ -235,7 +239,8 @@ const Home = new Vue({
             end_time: this.editForm.end_time,
             description: this.editForm.description,
             rsvp: this.eventList[i].rsvp,
-            image: this.editForm.image
+            image: this.editForm.image,
+            price: this.editForm.price
           })
           $('#editModal').modal('hide')
         }, err => {
@@ -300,12 +305,15 @@ const Home = new Vue({
     //     }
     //   }
     // }
-    BaaS.init("d06840973e93da8277d9") // clientID for this App
-    BaaS.auth.getCurrentUser().then(() => {
-      this.init()
-    }).catch(e => {
-      this.openLoginModal()
-    })
+    fetch('https://hzcx1ko8.minapp-faas.com/prod/')
+      .then(res => res.json())
+      .then(data => {
+        BaaS.init(data.minapp)
+        BaaS.auth.getCurrentUser().then(() => {
+          this.init()
+        }).catch(e => {
+          this.openLoginModal()
+        })
+      })
   }
 })
-
