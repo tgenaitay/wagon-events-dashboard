@@ -169,6 +169,8 @@
         </div>
       </div>
       <div class="modal-footer">
+        <input type="checkbox" id="private" v-model="editForm.private">
+        <label for="private" style="margin-right: 1em;"> Private event? 🤫</label>
         <input type="checkbox" id="notify" value="yes" v-model="editForm.notify">
         <label for="notify"> Notify attendees ⚠️</label>
         <button type="button" class="btn btn-primary" @click="handleEdit">Save</button>
