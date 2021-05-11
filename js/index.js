@@ -51,7 +51,6 @@ const Home = new Vue({
   },
   methods: {
     editEvent(event) {
-      console.log(event)
       this.editForm.id = event.id
       this.editForm.name = event.name
       this.editForm.date = event.date
@@ -65,6 +64,7 @@ const Home = new Vue({
       this.editForm.image = event.image
       this.editForm.price = Number.parseInt(event.price, 10) || 0
       this.editForm.notify = false
+      this.editForm.private = event.private
       this.openEditModal()
     },
     getDrivers() {
@@ -111,6 +111,7 @@ const Home = new Vue({
                 start_time: v.start_time,
                 end_time: v.end_time,
                 price: v.price,
+                private: v.private,
                 rsvp: count,
                 image: v.image
               };
@@ -207,7 +208,6 @@ const Home = new Vue({
       let record = Events.getWithoutData(this.editForm.id)
 
       // New data set
-
       record.set({
         name: this.editForm.name,
         date: this.editForm.date,
@@ -220,6 +220,7 @@ const Home = new Vue({
         description: this.editForm.description,
         image: this.editForm.image,
         notify: this.editForm.notify,
+        private: this.editForm.private,
         price: Number.parseInt(this.editForm.price, 10)
       })
 
@@ -229,6 +230,7 @@ const Home = new Vue({
           // success
           const i = this.eventList.findIndex(x => x.id === this.editForm.id)
           Home.$set(Home.eventList, i, {
+            id: this.editForm.id,
             name: this.editForm.name,
             date: this.editForm.date,
             city: this.editForm.city,
@@ -240,7 +242,8 @@ const Home = new Vue({
             description: this.editForm.description,
             rsvp: this.eventList[i].rsvp,
             image: this.editForm.image,
-            price: this.editForm.price
+            price: this.editForm.price,
+            private: this.editForm.private
           })
           $('#editModal').modal('hide')
         }, err => {
