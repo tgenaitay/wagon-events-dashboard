@@ -69,7 +69,7 @@ const Home = new Vue({
     },
     getDrivers() {
       let that = this
-      Drivers.offset(0).limit(100).orderBy('-created_at').find().then(res => {
+      Drivers.offset(0).limit(10).orderBy('-created_at').find().then(res => {
         res.data.objects.forEach(d => {
           that.drivers[d.full_name] = d.id
           that.driver_names.push(d.full_name)
@@ -91,7 +91,7 @@ const Home = new Vue({
       let eventsLoaded = [];
 
 
-      Events.offset(0).limit(1000).orderBy('-created_at').find().then(res => {
+      Events.offset(0).limit(18).orderBy('-created_at').find().then(res => {
         res.data.objects.forEach(v => {
           let query = new BaaS.Query()
           query.compare('event_id', '=', Events.getWithoutData(v.id))
@@ -295,7 +295,6 @@ const Home = new Vue({
     init() {
       this.getEventList()
       this.getDrivers()
-      console.log(this.eventList)
     },
   },
   mounted() {
