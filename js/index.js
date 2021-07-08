@@ -10,10 +10,62 @@ const dateFilter = function(value) {
   return date.toLocaleDateString(['en-US'], {month: 'short', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'})
 }
 
+const moreEvents = Vue.component('more-events', {
+  data() {
+   return { limit: 9 }
+  },
+  template: '<button v-on:click="loadMoreEvents" class="btn btn-light">Load More Events</button>',
+  methods: {
+    loadMoreEvents() {
+      this.limit += 9
+      let that = this;
+      let eventsLoaded = [];
+
+      Events.offset(0).limit(that.limit).orderBy('-created_at').find().then(res => {
+        res.data.objects.forEach(v => {
+          let query = new BaaS.Query()
+          query.compare('event_id', '=', Events.getWithoutData(v.id))
+
+          let eventLoaded = new Promise((resolve, reject) => {
+            Signups.setQuery(query).expand("events").limit(1000).find().then(res => {
+              let count = res.data.objects.length
+              let event = {
+                id: v.id,
+                name: v.name,
+                date: v.date,
+                city:  v.city,
+                driver: Object.keys(that.drivers).find(key => that.drivers[key] === v.driver_id),
+                address: v.address,
+                clipboard: v.clipboard,
+                description: v.description,
+                start_time: v.start_time,
+                end_time: v.end_time,
+                price: v.price,
+                private: v.private,
+                rsvp: count,
+                image: v.image
+              };
+              resolve({ date: new Date(event.date), event: event} );
+            })
+          });
+
+          eventsLoaded.push(eventLoaded)
+        })
+        Promise.all(eventsLoaded).then((events) => {
+          that.eventList = events.sort((a,b) => b.date - a.date).map(e => e.event);
+        });
+      });
+    },
+  }
+})
+
 const Home = new Vue({
   el: '#root',
   filters: {
     dateFormat: dateFilter
+  },
+  components: {
+    moreEvents
   },
   data() {
     return {
@@ -79,22 +131,22 @@ const Home = new Vue({
     deleteEvent(event) {
       let go = confirm("Please confirm you want to delete this event");
       if (go == true) {
-              Events.delete(event.id).then(() => {
-                this.eventList = this.eventList.filter(v => {
-                  return v.id !== event.id
-                })
-              })
+        Events.delete(event.id).then(() => {
+          this.eventList = this.eventList.filter(v => {
+            return v.id !== event.id
+          })
+        })
       }
     },
-    getEventList() {
+    getEventList(limit = 9) {
       let that = this;
       let eventsLoaded = [];
 
 
-      Events.offset(0).limit(18).orderBy('-created_at').find().then(res => {
+      Events.offset(0).limit(limit).orderBy('-created_at').find().then(res => {
         res.data.objects.forEach(v => {
           let query = new BaaS.Query()
-          query.compare('event_id', '=', Events.getWithoutData(v.id))
+          query.compare('event_id', '=', v.id)
 
           let eventLoaded = new Promise((resolve, reject) => {
             Signups.setQuery(query).expand("events").limit(1000).find().then(res => {
@@ -131,7 +183,7 @@ const Home = new Vue({
       this.signUps = []
 
       let query = new BaaS.Query()
-      query.compare('event_id', '=', Events.getWithoutData(event.id))
+      query.compare('event_id', '=', event.id)
 
       Signups.setQuery(query).expand("events").limit(1000).orderBy('created_at').find().then(res => {
 
@@ -157,7 +209,6 @@ const Home = new Vue({
 
           })
         })
-        console.log(this.signUps)
         this.openSignupsModal()
       })
     },
@@ -293,8 +344,8 @@ const Home = new Vue({
 
     },
     init() {
-      this.getEventList()
       this.getDrivers()
+      this.getEventList()
     },
   },
   mounted() {
